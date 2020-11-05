@@ -91,10 +91,13 @@ kubectl apply -f 04-currency-exchange-microservice-basic/deployment.yaml
 kubectl apply -f 05-currency-conversion-microservice-basic/deployment.yaml
 ```
 
-### Adding Ingress
+### Adding Ingress - little messy the below method you can use below kalyans method to create ingress controller.
+https://github.com/vidyasekaran/aws-eks-kubernetes-masterclass/tree/master/08-ELB-Application-LoadBalancers/08-03-ALB-Ingress-ContextPath-Based-Routing
 
 - https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html
 - Check out sample application - https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/2048/2048-ingress.yaml
+
+
 
 ```
 1. Create an IAM OIDC provider and associate it with your cluster. Replace the <example values> (including <>) with your own.
