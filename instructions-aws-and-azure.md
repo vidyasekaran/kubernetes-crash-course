@@ -92,79 +92,15 @@ kubectl apply -f 05-currency-conversion-microservice-basic/deployment.yaml
 ```
 
 ### Adding Ingress - little messy the below method you can use below kalyans method to create ingress controller.
+https://github.com/vidyasekaran/aws-eks-kubernetes-masterclass/tree/master/08-ELB-Application-LoadBalancers/08-01-ALB-Ingress-Install
 https://github.com/vidyasekaran/aws-eks-kubernetes-masterclass/tree/master/08-ELB-Application-LoadBalancers/08-03-ALB-Ingress-ContextPath-Based-Routing
 
 - https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html
 - Check out sample application - https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/2048/2048-ingress.yaml
 
 
-
 ```
-1. Create an IAM OIDC provider and associate it with your cluster. Replace the <example values> (including <>) with your own.
 
-eksctl utils associate-iam-oidc-provider  --region ap-south-1 --cluster  in28minutes-cluster --approve
-
-2. Create an IAM policy using the policy downloaded in the previous step
-
-kubectl apply -f 05-currency-conversion-microservice-basic/ingress_aws.yaml
-
-3.Execute below command and it creates iam_policy.json file with iam policy
-curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
-
-4. Create an IAM policy using the policy downloaded in the previous step.
-aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam-policy.json
-
-Below policy is created and displayed in screen
-
-{
-    "Policy": {
-        "PolicyName": "AWSLoadBalancerControllerIAMPolicy",
-        "PolicyId": "ANPASLXIG3EUT5HDILFT5",
-        "Arn": "arn:aws:iam::162622003497:policy/AWSLoadBalancerControllerIAMPolicy",
-        "Path": "/",
-        "DefaultVersionId": "v1",
-        "AttachmentCount": 0,
-        "PermissionsBoundaryUsageCount": 0,
-        "IsAttachable": true,
-        "CreateDate": "2020-11-05T12:48:52+00:00",
-        "UpdateDate": "2020-11-05T12:48:52+00:00"
-    }
-}
-
-5. Create an IAM role and Kubernetes service account named aws-load-balancer-controller in the kube-system namespace, a cluster role, and a cluster role binding for the load balancer controller to use with the following command.
-
-eksctl create iamserviceaccount --cluster=in28minutes-cluster --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn=arn:aws:iam::162622003497:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
-
-kubectl get deployment -n kube-system alb-ingress-controller
-kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager.yaml
-curl -o v2_0_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/v2_0_0_full.yaml
-kubectl apply -f v2_0_0_full.yaml
-kubectl get deployment -n kube-system aws-load-balancer-controller
-
-
-Add below in kubectl edit -f v2_0_0_full.yaml where to put its under template-> metadata->spec-> containers
-
-- --cluster-name=in28minutes-cluster
-- --aws-vpc-id=vpc-05f6465454f04d4b3
-- --aws-region=ap-south-1
-
-
-kubectl edit -f v2_0_0_full.yaml
-
-template:
-      metadata:
-        creationTimestamp: null
-        labels:
-          app.kubernetes.io/component: controller
-          app.kubernetes.io/name: aws-load-balancer-controller
-      spec:
-        containers:
-        - args:
-          - --cluster-name=your-cluster-name
-          - --ingress-class=alb
-          image: amazon/aws-alb-ingress-controller:v2.0.0
-          imagePullPolicy: IfNotPresent
-          livenessProbe:
 ```
 
 ### Adding Application Insights
