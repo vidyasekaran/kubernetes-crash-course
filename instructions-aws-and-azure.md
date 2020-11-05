@@ -50,16 +50,28 @@ kubectl get deployment - deployment is created
 kubectl get replicaset - replica set is created
 
 kubectl expose deployment hello-world-rest-api --type=LoadBalancer --port=8080
+kubectl get svc
 
+$ kubectl get svc
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP                                                                PORT(S)          AGE
+hello-world-rest-api   LoadBalancer   10.100.126.207   a3b847de9584c4ee19f5b1401fdeebc6-1775864312.ap-south-1.elb.amazonaws.com   8080:31231/TCP   3m29s
+kubernetes             ClusterIP      10.100.0.1       <none>                                                                     443/TCP          15m
+todowebapp-h2          LoadBalancer   10.100.28.37     ab7f944d59f3e4db4ad45253b4ceba6a-967590409.ap-south-1.elb.amazonaws.com    8080:32560/TCP   6s
+
+http://a3b847de9584c4ee19f5b1401fdeebc6-1775864312.ap-south-1.elb.amazonaws.com:8080/hello-world
+
+kubectl get pods
 kubectl create deployment todowebapp-h2 --image=in28min/todo-web-application-h2:0.0.1-SNAPSHOT
 kubectl expose deployment todowebapp-h2 --type=LoadBalancer --port=8080
+kubectl get svc
+
+http://ab7f944d59f3e4db4ad45253b4ceba6a-967590409.ap-south-1.elb.amazonaws.com:8080/list-todos
+username pwd : in28minutes/dummy
+
 
 cd /Ranga/git/01.udemy-course-repos/kubernetes-crash-course/03-todo-web-application-mysql/backup/02-final-backup-at-end-of-course 
-
 kubectl apply -f mysql-database-data-volume-persistentvolumeclaim-aws.yaml,mysql-deployment.yaml,mysql-service.yaml
-
 kubectl apply -f config-map.yaml,secret.yaml,todo-web-application-deployment.yaml,todo-web-application-service.yaml
-
 echo -n dummytodos | base64
 ```
 
