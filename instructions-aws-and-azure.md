@@ -46,6 +46,9 @@ Things to Note
 
 ```
 kubectl create deployment hello-world-rest-api --image=in28min/hello-world-rest-api:0.0.1.RELEASE
+kubectl get deployment - deployment is created
+kubectl get replicaset - replica set is created
+
 kubectl expose deployment hello-world-rest-api --type=LoadBalancer --port=8080
 
 kubectl create deployment todowebapp-h2 --image=in28min/todo-web-application-h2:0.0.1-SNAPSHOT
